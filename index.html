@@ -64,10 +64,9 @@
     else if (flag) {
       jobArr.push(jobObj);
       localStorage.setItem("jobList", JSON.stringify(jobArr));
-      window.location.href = "applied.html"
       form.name.value = "";
       form.email.value = "";
-      form.role.value = "";
+      form.role.value = "FSD";
       form.salary.value = "";   
     }
     else {

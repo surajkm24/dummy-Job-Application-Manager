@@ -7,6 +7,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Database</title>
   <link rel="stylesheet" href="commonStyles.css" />
+  <style>
+    #sortName,#sortSalary,#filter{
+      height:30px;
+      padding:0px 5px;
+      font-size:16px;
+      border-radius:4px;
+      border:3px solid rgba(74, 72, 72, 0.538);
+      background-color:whitesmoke;
+    }
+  </style>
 </head>
 
 <body>
@@ -14,6 +24,25 @@
     <div><a href="index.html">Home</a></div>
     <div><a href="applied.html">Applied Jobs</a></div>
     <div><a href="bookmark.html">Bookmarks</a></div>
+  </div>
+
+  <div>
+    <select id="sortName" onChange="sortByName()">
+      <option value="Sort By Names">Sort By Names</option>
+      <option value="Ascending">Ascending</option>
+      <option value="Descending">Descending</option>
+    </select>
+    <select id="sortSalary" onChange="sortBySalary()">
+      <option value="Sort By Salary">Sort By Salary</option>
+      <option value="Low to High">Low to High</option>
+      <option value="High to Low">High to Low</option>
+    </select>
+    <select id="filter" onChange="filterByRole()">
+      <option value="Filter By Role">Filter By Role</option>
+      <option value="FSD">FSD</option>
+      <option value="Frontend">Frontend</option>
+      <option value="Backend">Backend</option>
+    </select>
   </div>
 
   <main>
@@ -40,6 +69,7 @@
   displayData(jobArr);
 
   function displayData(data) {
+    document.querySelector("tbody").innerHTML="";
     data.forEach(function (ele) {
 
       var tr1 = document.createElement("tr");
@@ -86,6 +116,102 @@
       }
     }
   }
+
+  function sortByName() {
+    var option = document.querySelector("#sortName").value;
+    if(option === "Ascending") {
+      jobArr.sort(function(a,b){
+        var x = a.name.toUpperCase();
+        var y = b.name.toUpperCase();
+        if(x>y){
+          return 1;
+        }
+        if(y>x){
+          return -1
+        }
+        return 0;
+      })
+      displayData(jobArr);
+    }
+    if(option === "Descending") {
+      jobArr.sort(function(a,b){
+        var x = a.name.toUpperCase();
+        var y = b.name.toUpperCase();
+        if(x>y){
+          return -1;
+        }
+        if(y>x){
+          return 1
+        }
+        return 0;
+      })
+      displayData(jobArr);
+    }
+  }
+
+  function sortBySalary() {
+    var option = document.querySelector("#sortSalary").value;
+
+    if(option==="Low to High"){
+    jobArr.sort(function(a,b){
+      var x = +a.salary;
+      var y = +b.salary;
+      if(x>y){
+        return 1
+      }
+      if(y>x){
+        return -1;
+      }
+      return 0;
+    })
+    displayData(jobArr);
+  }
+  if(option==="High to Low"){
+    jobArr.sort(function(a,b){
+      var x = +a.salary;
+      var y = +b.salary;
+      if(x>y){
+        return -1
+      }
+      if(y>x){
+        return 1;
+      }
+      return 0;
+    })
+    displayData(jobArr);
+  }
+  }
+
+  function filterByRole() {
+    var option = document.querySelector("#filter").value;
+    if(option=="FSD") {
+     newArr = jobArr.filter(function(ele){
+        return ele.role==="FSD"
+      })
+      displayData(newArr);
+      console.log(newArr);
+    }
+    if(option==="Frontend") {
+     newArr = jobArr.filter(function(ele){
+        if(ele.role==="Frontend"){
+          return ele;
+        }
+      })
+      displayData(newArr);
+    }
+    if(option==="Backend") {
+     newArr = jobArr.filter(function(ele){
+        if(ele.role==="Backend"){
+          return ele;
+        }
+      })
+      displayData(newArr);
+    }
+    if(option==="Filter By Role") {
+      displayData(jobArr);
+    }
+  }
+
 </script>
 
 </html>
